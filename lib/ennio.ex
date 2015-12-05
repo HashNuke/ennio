@@ -12,9 +12,22 @@ defmodule Ennio do
       supervisor(Task.Supervisor, [[name: Ennio.TaskSupervisor]])
     ]
 
+    start_ranch
+
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: Ennio.Supervisor]
     Supervisor.start_link(children, opts)
+  end
+
+
+  def start_ranch do
+    protocol_options = []
+    {:ok, _} = :ranch.start_listener(:ennio, 1, :ranch_tcp, [port: smtp_port], Ennio.SmtpProtocol, protocol_options)
+  end
+
+
+  defp smtp_port do
+    Application.get_env(:ennio, :smtp_port, 2525)
   end
 end
