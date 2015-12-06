@@ -10,11 +10,6 @@ defmodule Ennio.SmtpProtocol do
   end
 
 
-  def init([]) do
-    {:ok, :undefined}
-  end
-
-
   def init(ref, socket, transport, _options) do
     :ok = :proc_lib.init_ack {:ok, self}
     :ok = :ranch.accept_ack ref
