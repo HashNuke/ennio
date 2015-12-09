@@ -29,6 +29,16 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
 * If user authenticates, then it's an outgoing email (to be relayed to another server). Else it is incoming mail to accept.
 * Check relaying mail if it is destined for the same (self) email server.
 
+>  When the RFC 822 format ([28], [4]) is being used, the mail data
+   include the header fields such as those named Date, Subject, To, Cc,
+   and From.  Server SMTP systems SHOULD NOT reject messages based on
+   perceived defects in the RFC 822 or MIME (RFC 2045 [21]) message
+   header section or message body.  In particular, they MUST NOT reject
+   messages in which the numbers of Resent-header fields do not match or
+   Resent-to appears without Resent-from and/or Resent-date.
+
+* Perform recipient verification only after the whole mail transaction is complete (email bouncing)
+
 ## RFC notes
 
 * All commands begin with a command verb.
@@ -40,6 +50,7 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
   * exception is the mailbox local part of the address
 * Few SMTP servers violate RFC and require uppercase verbs.
 * Should support 8BITMIME extension
+* Normally failures produce 550 or 553 replies
 
 ## RFCs
 
