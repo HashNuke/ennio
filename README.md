@@ -29,4 +29,7 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
 * If user authenticates, then it's an outgoing email (to be relayed to another server). Else it is incoming mail to accept.
 * Check relaying mail if it is destined for the same (self) email server.
 
-## SMTP RFC notes
+## RFCs
+
+* [RFC 5321](https://tools.ietf.org/html/rfc5321) - SMTP
+* [RFC 7504](https://tools.ietf.org/html/rfc7504) - SMTP 521 and 556 reply codes
