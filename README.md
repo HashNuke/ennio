@@ -29,8 +29,25 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
 * If user authenticates, then it's an outgoing email (to be relayed to another server). Else it is incoming mail to accept.
 * Check relaying mail if it is destined for the same (self) email server.
 
+## RFC notes
+
+* All commands begin with a command verb.
+* Some commands do not accept arguments
+
+* All replies begin with a three digit numeric code.
+* Some reply codes are followed by free form text
+* Verbs and argument values are not case-sensitive
+  * exception is the mailbox local part of the address
+* Few SMTP servers violate RFC and require uppercase verbs.
+* Should support 8BITMIME extension
+
 ## RFCs
 
-* [RFC 5321](https://tools.ietf.org/html/rfc5321) - SMTP
-* [RFC 7504](https://tools.ietf.org/html/rfc7504) - SMTP 521 and 556 reply codes
-* [RFC 6409](https://tools.ietf.org/html/rfc6409) - Message Submission for Mail
+* [RFC 5321](https://tools.ietf.org/html/rfc5321) SMTP
+* [RFC 7504](https://tools.ietf.org/html/rfc7504) SMTP 521 and 556 reply codes
+* [RFC 6409](https://tools.ietf.org/html/rfc6409) Message Submission for Mail
+* [RFC 4954](https://tools.ietf.org/html/rfc4954) SMTP Service Extension for Authentication
+* [RFC 6152](https://tools.ietf.org/html/rfc6152) 8BITMIME extension
+
+* [RFC 5322](https://tools.ietf.org/html/rfc5322) Internet Message Format
+* [RFC 2045](https://tools.ietf.org/html/rfc2045) MIME
