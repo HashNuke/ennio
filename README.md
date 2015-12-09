@@ -17,3 +17,16 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
         def application do
           [applications: [:ennio]]
         end
+
+## WIP notes
+
+* Ranch delays accepting connections if the OS runs out of file descriptors
+* Limit the amount of bytes that a connection can accept. Else sending data repeatedly to keep a connection open can cause blocks.
+
+* start_ranch stuff should actually be in a supervisor
+* :inet_res.lookup('hashnuke.com', :in, :mx) to lookup MX records
+* cache the DNS records for atleast 3 minutes in ETS
+* If user authenticates, then it's an outgoing email (to be relayed to another server). Else it is incoming mail to accept.
+* Check relaying mail if it is destined for the same (self) email server.
+
+## SMTP RFC notes
