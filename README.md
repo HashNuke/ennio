@@ -39,6 +39,9 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
 
 * Perform recipient verification only after the whole mail transaction is complete (email bouncing)
 
+* Should prepend a "Received" header with mandatory protocol in the via clause.
+example: "from [ClientIP] by [self-ip] via SMTP, [date]"
+
 ## RFC notes
 
 * All commands begin with a command verb.
@@ -51,6 +54,16 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
 * Few SMTP servers violate RFC and require uppercase verbs.
 * Should support 8BITMIME extension
 * Normally failures produce 550 or 553 replies
+* 421 response if need to shutdown SMTP service
+
+* EHLO with address literal for clients or FQDN for relays
+  * size
+  * extension list
+* HELO
+* QUIT
+* VRFY
+* EXPN
+* RSET
 
 ## RFCs
 
@@ -62,3 +75,17 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
 
 * [RFC 5322](https://tools.ietf.org/html/rfc5322) Internet Message Format
 * [RFC 2045](https://tools.ietf.org/html/rfc2045) MIME
+
+
+## Extensions
+
+```
+defmodule Ennio.Extensions.8bitmime do
+  def name do
+    "8BITMIME"
+  end
+
+  def header(name, value) do
+  end
+end
+```
