@@ -1,7 +1,8 @@
-defmodule Ennio.SmtpProtocol do
+defmodule Ennio.Protocol do
   use GenServer
 
-  alias Ennio.SmtpConnection
+  alias Ennio.Connection
+  alias Ennio.Config
 
   @behaviour :ranch_protocol
   @timeout Application.get_env :ennio, :timeout, 5000
@@ -19,17 +20,16 @@ defmodule Ennio.SmtpProtocol do
 
     #TODO move extension detection elsewhere so that it is called only once
     extensions = ["SIZE 2500"]
-    state = %SmtpConnection{transport: transport, socket: socket, extensions: extensions}
-    #TODO banner
+    state = %Connection{transport: transport, socket: socket, extensions: extensions}
     :gen_server.enter_loop __MODULE__, [], state, @timeout
   end
 
 
   def handle_info({:tcp, socket, data}, conn) do
-    %SmtpConnection{socket: socket, transport: transport, mail: mail} = conn
+    %Connection{socket: socket, transport: transport, mail: mail} = conn
     :ok = transport.setopts socket, [active: :once]
 
-    case SmtpConnection.call(conn, data) do
+    case Connection.call(conn, data) do
       {:halt, conn} ->
         {:stop, :normal, conn}
       {:ok, conn} ->

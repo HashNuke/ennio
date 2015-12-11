@@ -1,4 +1,4 @@
-defmodule Ennio.SmtpConnection do
+defmodule Ennio.Connection do
   require Logger
 
   defstruct transport: nil,
@@ -14,7 +14,7 @@ defmodule Ennio.SmtpConnection do
 
     case Map.get(available_commands, command) do
       nil ->
-        Ennio.Smtp.Reply.error(conn, :bad_command)
+        Ennio.Reply.error(conn, :bad_command)
         {:ok, conn}
       module ->
         module.call(conn, args)
@@ -29,11 +29,11 @@ defmodule Ennio.SmtpConnection do
 
   defp available_commands do
     %{
-      "EHLO" => Ennio.Smtp.EhloCommand,
-      "HELO" => Ennio.Smtp.HeloCommand,
-      "MAIL" => Ennio.Smtp.MailCommand,
-      "RCPT" => Ennio.Smtp.RcptCommand,
-      "DATA" => Ennio.Smtp.DataCommand
+      "EHLO" => Ennio.EhloCommand,
+      "HELO" => Ennio.HeloCommand,
+      "MAIL" => Ennio.MailCommand,
+      "RCPT" => Ennio.RcptCommand,
+      "DATA" => Ennio.DataCommand
     }
   end
 

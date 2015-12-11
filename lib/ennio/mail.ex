@@ -1,4 +1,5 @@
-defmodule Ennio.Smtp.Mail do
+defmodule Ennio.Mail do
+
   defstruct from: nil,
             to: nil,
             headers: [],

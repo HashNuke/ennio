@@ -12,7 +12,7 @@ defmodule Ennio do
     children = [
       # Define workers and child supervisors to be supervised
       # worker(Ennio.ServerSupervisor, []),
-      supervisor(Task.Supervisor, [[name: Ennio.TaskSupervisor]])
+      # supervisor(Task.Supervisor, [[name: Ennio.TaskSupervisor]])
     ]
 
     start_ranch
@@ -27,7 +27,7 @@ defmodule Ennio do
   def start_ranch do
     protocol_options = []
     port = Config.smtp_port
-    {:ok, _} = :ranch.start_listener(:ennio, 1, :ranch_tcp, [port: port], Ennio.SmtpProtocol, protocol_options)
+    {:ok, _} = :ranch.start_listener(:ennio, 1, :ranch_tcp, [port: port], Ennio.Protocol, protocol_options)
     Logger.info "SMTP server started on port #{port}"
   end
 

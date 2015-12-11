@@ -1,6 +1,6 @@
-defmodule Ennio.Smtp.HeloCommand do
+defmodule Ennio.HeloCommand do
 
-  alias Ennio.Smtp.Reply
+  alias Ennio.Reply
 
   def name do
     "HELO"

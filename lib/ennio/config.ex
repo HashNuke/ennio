@@ -1,5 +1,7 @@
 defmodule Ennio.Config do
 
+  @version Mix.Project.config[:version]
+
   def smtp_identity do
     smtp[:identity]
   end
@@ -15,4 +17,6 @@ defmodule Ennio.Config do
   def smtp do
     Application.get_env(:ennio, :smtp)
   end
+
+  def version, do: @version
 end
