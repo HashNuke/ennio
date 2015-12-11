@@ -1,12 +1,20 @@
 defmodule Ennio.Connection do
+  alias Ennio.Config
+
   require Logger
 
   defstruct transport: nil,
             socket: nil,
             extensions: nil,
-            idenity: nil,
             state: nil,
             mail: nil
+
+
+  def new(socket, transport) do
+    conn = %Ennio.Connection{transport: transport, socket: socket}
+    %{conn | extensions: Config.extensions }
+  end
+
 
 
   def call(conn, data) do
@@ -33,13 +41,13 @@ defmodule Ennio.Connection do
 
   defp available_commands do
     %{
-      "EHLO" => Ennio.EhloCommand,
-      "HELO" => Ennio.HeloCommand,
-      "MAIL" => Ennio.MailCommand,
-      "RCPT" => Ennio.RcptCommand,
-      "DATA" => Ennio.DataCommand,
-      "RSET" => Ennio.RsetCommand,
-      "QUIT" => Ennio.QuitCommand
+      "EHLO" => Ennio.Commands.Ehlo,
+      "HELO" => Ennio.Commands.Helo,
+      "MAIL" => Ennio.Commands.Mail,
+      "RCPT" => Ennio.Commands.Rcpt,
+      "DATA" => Ennio.Commands.Data,
+      "RSET" => Ennio.Commands.Rset,
+      "QUIT" => Ennio.Commands.Quit
     }
   end
 
