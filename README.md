@@ -64,6 +64,7 @@ example: "from [ClientIP] by [self-ip] via SMTP, [date]"
 * VRFY
 * EXPN
 * RSET
+* What happens to Bcc emails? Are they sent the 2nd time or single copy?
 
 ## RFCs
 
