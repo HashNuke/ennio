@@ -9,6 +9,11 @@ defmodule Ennio.Reply do
   end
 
 
+  def bye(conn) do
+    Connection.output conn, "221 ok bye"
+  end
+
+
   def success(conn, data) do
     Connection.output conn, "250-#{data}"
   end
