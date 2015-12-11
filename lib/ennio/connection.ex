@@ -10,6 +10,7 @@ defmodule Ennio.Connection do
 
 
   def call(conn, data) do
+    #TODO if data command is in progress avoid the following
     [command | args] = String.strip(data) |> String.split(" ")
 
     # This avoids pattern matching
