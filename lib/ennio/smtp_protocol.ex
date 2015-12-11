@@ -1,7 +1,9 @@
 defmodule Ennio.SmtpProtocol do
   use GenServer
-  @behaviour :ranch_protocol
 
+  alias Ennio.SmtpConnection
+
+  @behaviour :ranch_protocol
   @timeout Application.get_env :ennio, :timeout, 5000
 
 
@@ -15,15 +17,21 @@ defmodule Ennio.SmtpProtocol do
     :ok = :ranch.accept_ack ref
     :ok = transport.setopts socket, [active: :once]
 
-    state = %{socket: socket, transport: transport}
+    state = %SmtpConnection{transport: transport, socket: socket}
     :gen_server.enter_loop __MODULE__, [], state, @timeout
   end
 
 
-  def handle_info({:tcp, socket, data}, state=%{socket: socket, transport: transport}) do
+  def handle_info({:tcp, socket, data}, conn) do
+    %SmtpConnection{socket: socket, transport: transport, mail: mail} = conn
     :ok = transport.setopts socket, [active: :once]
-    :ok = transport.send socket, data
-    {:noreply, state, @timeout}
+
+    case SmtpConnection.call(conn, data) do
+      {:halt, conn} ->
+        {:stop, :normal, conn}
+      {:ok, conn} ->
+        {:noreply, conn, @timeout}
+    end
   end
 
   def handle_info({:tcp_closed, _socket}, state) do
