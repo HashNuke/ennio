@@ -12,6 +12,9 @@ defmodule Ennio.Connection do
   def call(conn, data) do
     [command | args] = String.strip(data) |> String.split(" ")
 
+    # This avoids pattern matching
+    command = String.upcase command
+
     case Map.get(available_commands, command) do
       nil ->
         Ennio.Reply.error(conn, :bad_command)
