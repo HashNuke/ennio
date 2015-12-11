@@ -1,5 +1,7 @@
 defmodule Ennio do
   use Application
+
+  alias Ennio.Config
   require Logger
 
   # See http://elixir-lang.org/docs/stable/elixir/Application.html
@@ -24,13 +26,9 @@ defmodule Ennio do
 
   def start_ranch do
     protocol_options = []
-    {:ok, _} = :ranch.start_listener(:ennio, 1, :ranch_tcp, [port: smtp_port], Ennio.SmtpProtocol, protocol_options)
-    Logger.info "SMTP server started on port #{smtp_port}"
-  end
-
-
-  defp smtp_port do
-    Application.get_env(:ennio, :smtp_port, 2525)
+    port = Config.smtp_port
+    {:ok, _} = :ranch.start_listener(:ennio, 1, :ranch_tcp, [port: port], Ennio.SmtpProtocol, protocol_options)
+    Logger.info "SMTP server started on port #{port}"
   end
 
 end
