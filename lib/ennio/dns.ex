@@ -1,7 +1,7 @@
 defmodule Ennio.Dns do
 
   def mx_records(domain) do
-    inet_res.lookup '#{domain}', :in, :mx
+    :inet_res.lookup '#{domain}', :in, :mx
   end
 
 
