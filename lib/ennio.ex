@@ -28,7 +28,7 @@ defmodule Ennio do
 
   def start_ranch do
     protocol_options = []
-    port = Config.smtp_port
+    port = Config.port
     {:ok, _} = :ranch.start_listener(:ennio, 1, :ranch_tcp, [port: port], Ennio.Protocol, protocol_options)
     Logger.info "SMTP server started on port #{port}"
   end

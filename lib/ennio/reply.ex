@@ -5,7 +5,7 @@ defmodule Ennio.Reply do
 
 
   def init(conn) do
-    Connection.output conn, "220 #{Config.smtp_banner}"
+    Connection.output conn, "220 #{Config.banner}"
   end
 
 

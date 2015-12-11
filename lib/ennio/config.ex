@@ -1,18 +1,40 @@
 defmodule Ennio.Config do
 
-  def smtp_identity do
+  def identity do
     smtp[:identity]
   end
 
-  def smtp_banner do
-    "#{smtp[:identity]} EnnioSMTP #{Ennio.version}"
+  def banner do
+    "#{identity} EnnioSMTP #{Ennio.version}"
   end
 
-  def smtp_port do
+  def port do
     smtp[:port] || 2525
   end
 
+  def max_size do
+    smtp[:max_size] || 100000
+  end
+
+
+  def extensions do
+    if smtp[:only_extensions] do
+      smtp[:only_extensions]
+    else
+      additional_extensions = smtp[:extensions] || []
+      inbuilt_extensions ++ additional_extensions
+    end
+  end
+
+
   def smtp do
     Application.get_env(:ennio, :smtp)
+  end
+
+
+  defp inbuilt_extensions do
+    [
+      Ennio.Extensions.Size
+    ]
   end
 end
