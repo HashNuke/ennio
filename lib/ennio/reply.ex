@@ -1,20 +1,20 @@
-defmodule Ennio.Smtp.Reply do
+defmodule Ennio.Reply do
 
-  alias Ennio.SmtpConnection
+  alias Ennio.Connection
   alias Ennio.Config
 
 
   def ok(conn) do
-    SmtpConnection.output conn, "250 ok"
+    Connection.output conn, "250 ok"
   end
 
 
   def success(conn, data) do
-    SmtpConnection.output conn, "250-#{data}"
+    Connection.output conn, "250-#{data}"
   end
 
   def success(conn, data, last: true) do
-    SmtpConnection.output conn, "250 #{data}"
+    Connection.output conn, "250 #{data}"
   end
 
   def success(conn, data, multiline: true) do
@@ -29,15 +29,11 @@ defmodule Ennio.Smtp.Reply do
 
 
   def error(conn, :bad_command_sequence) do
-    require Logger
-    Logger.info "invalid sequence"
-    SmtpConnection.output conn, "503 bad sequence of commands"
+    Connection.output conn, "503 bad sequence of commands"
   end
 
   def error(conn, :bad_command) do
-    require Logger
-    Logger.info "invalid command"
-    SmtpConnection.output conn, "503 bad command"
+    Connection.output conn, "503 bad command"
   end
 
   def error(conn, :invalid_recipient_syntax) do
