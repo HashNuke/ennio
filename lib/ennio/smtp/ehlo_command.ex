@@ -8,7 +8,8 @@ defmodule Ennio.Smtp.EhloCommand do
 
   def call(conn, _args) do
     #TODO accept FQDN as first arg
-    Reply.complete conn, conn.extensions, multiline: true
+    Reply.success conn, Ennio.Config.smtp_identity
+    Reply.success conn, conn.extensions, multiline: true
     {:ok, conn}
   end
 end

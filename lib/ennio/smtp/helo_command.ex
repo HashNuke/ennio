@@ -7,7 +7,7 @@ defmodule Ennio.Smtp.HeloCommand do
   end
 
   def call(conn, _args) do
-    Reply.ok conn
+    Reply.success conn, Ennio.Config.smtp_identity, last: true
     {:ok, conn}
   end
 end
