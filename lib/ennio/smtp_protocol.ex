@@ -17,7 +17,10 @@ defmodule Ennio.SmtpProtocol do
     :ok = :ranch.accept_ack ref
     :ok = transport.setopts socket, [active: :once]
 
-    state = %SmtpConnection{transport: transport, socket: socket}
+    #TODO move extension detection elsewhere so that it is called only once
+    extensions = ["SIZE 2500"]
+    state = %SmtpConnection{transport: transport, socket: socket, extensions: extensions}
+    #TODO banner
     :gen_server.enter_loop __MODULE__, [], state, @timeout
   end
 
