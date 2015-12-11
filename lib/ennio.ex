@@ -4,6 +4,8 @@ defmodule Ennio do
   alias Ennio.Config
   require Logger
 
+  @version Mix.Project.config[:version]
+
   # See http://elixir-lang.org/docs/stable/elixir/Application.html
   # for more information on OTP Applications
   def start(_type, _args) do
@@ -31,4 +33,6 @@ defmodule Ennio do
     Logger.info "SMTP server started on port #{port}"
   end
 
+
+  def version, do: @version
 end
