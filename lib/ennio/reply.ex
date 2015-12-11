@@ -4,6 +4,11 @@ defmodule Ennio.Reply do
   alias Ennio.Config
 
 
+  def init(conn) do
+    Connection.output conn, "220 #{Config.smtp_banner}"
+  end
+
+
   def ok(conn) do
     Connection.output conn, "250 ok"
   end

@@ -21,9 +21,9 @@ defmodule Ennio.Protocol do
     #TODO move extension detection elsewhere so that it is called only once
     extensions = ["SIZE 2500"]
     state = %Connection{transport: transport, socket: socket, extensions: extensions}
+    Ennio.Reply.init state
     :gen_server.enter_loop __MODULE__, [], state, @timeout
   end
-
 
   def handle_info({:tcp, socket, data}, conn) do
     %Connection{socket: socket, transport: transport, mail: mail} = conn
