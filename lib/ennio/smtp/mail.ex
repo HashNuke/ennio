@@ -6,7 +6,8 @@ defmodule Ennio.Smtp.Mail do
             html_body: nil
 
   def add_header(mail, name, value) do
-    mail.headers = [{name, value} | mail.headers]
+    updated_headers = [{name, value} | mail.headers]
+    %{ mail | headers: updated_headers }
   end
 
 end
