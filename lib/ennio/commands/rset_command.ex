@@ -1,4 +1,4 @@
-defmodule Ennio.RsetCommand do
+defmodule Ennio.Commands.Rset do
 
   alias Ennio.Reply
 

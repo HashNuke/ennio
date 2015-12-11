@@ -1,4 +1,4 @@
-defmodule Ennio.QuitCommand do
+defmodule Ennio.Commands.Quit do
 
   alias Ennio.Reply
 

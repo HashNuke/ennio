@@ -1,4 +1,4 @@
-defmodule Ennio.HeloCommand do
+defmodule Ennio.Commands.Helo do
 
   alias Ennio.Reply
 
@@ -7,7 +7,7 @@ defmodule Ennio.HeloCommand do
   end
 
   def call(conn, _args) do
-    Reply.success conn, Ennio.Config.smtp_identity, last: true
+    Reply.success conn, Ennio.Config.identity, last: true
     {:ok, conn}
   end
 end
