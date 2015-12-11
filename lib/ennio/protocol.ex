@@ -19,8 +19,7 @@ defmodule Ennio.Protocol do
     :ok = transport.setopts socket, [active: :once]
 
     #TODO move extension detection elsewhere so that it is called only once
-    extensions = ["SIZE 2500"]
-    state = %Connection{transport: transport, socket: socket, extensions: extensions}
+    state = Connection.new(socket, transport)
     Ennio.Reply.init state
     :gen_server.enter_loop __MODULE__, [], state, @timeout
   end
