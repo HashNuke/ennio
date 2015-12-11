@@ -18,6 +18,17 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
           [applications: [:ennio]]
         end
 
+## TODO
+
+* plain & html body parsing
+* Authentication
+* SPF records
+* MX verification
+* STARTTLS
+* Chunking
+* Pipelining
+* 8BITMIME
+
 ## WIP notes
 
 * Ranch delays accepting connections if the OS runs out of file descriptors
@@ -80,13 +91,4 @@ example: "from [ClientIP] by [self-ip] via SMTP, [date]"
 
 ## Extensions
 
-```
-defmodule Ennio.Extensions.8bitmime do
-  def name do
-    "8BITMIME"
-  end
-
-  def header(name, value) do
-  end
-end
-```
+TODO
