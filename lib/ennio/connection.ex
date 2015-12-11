@@ -37,7 +37,9 @@ defmodule Ennio.Connection do
       "HELO" => Ennio.HeloCommand,
       "MAIL" => Ennio.MailCommand,
       "RCPT" => Ennio.RcptCommand,
-      "DATA" => Ennio.DataCommand
+      "DATA" => Ennio.DataCommand,
+      "RSET" => Ennio.RsetCommand,
+      "QUIT" => Ennio.QuitCommand
     }
   end
 
