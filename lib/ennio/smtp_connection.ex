@@ -1,22 +1,40 @@
 defmodule Ennio.SmtpConnection do
-  defstruct transport: nil, socket: nil, state: nil, mail: nil
+  require Logger
+
+  defstruct transport: nil,
+            socket: nil,
+            extensions: nil,
+            idenity: nil,
+            state: nil,
+            mail: nil
 
 
   def call(conn, data) do
-    {command, args} = process_input(data)
+    [command | args] = String.strip(data) |> String.split(" ")
 
-    case command do
-      "MAIL" -> process
-      "RCPT" ->
-      "VRFY" ->
-      "EXPN" ->
+    case Map.get(available_commands, command) do
+      nil ->
+        Ennio.Smtp.Reply.error(conn, :bad_command)
+        {:ok, conn}
+      module ->
+        module.call(conn, args)
     end
-
-    command
   end
 
 
   def output(conn, data) do
-    #TODO output might be an array
+    conn.transport.send conn.socket, "#{data}\n"
   end
+
+
+  defp available_commands do
+    %{
+      "EHLO" => Ennio.Smtp.EhloCommand,
+      "HELO" => Ennio.Smtp.HeloCommand,
+      "MAIL" => Ennio.Smtp.MailCommand,
+      "RCPT" => Ennio.Smtp.RcptCommand,
+      "DATA" => Ennio.Smtp.DataCommand
+    }
+  end
+
 end
