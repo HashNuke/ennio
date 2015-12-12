@@ -7,6 +7,7 @@ defmodule Ennio.Commands.Ehlo do
 
   def call(conn, _args) do
     #TODO accept FQDN as first arg
+    Logger.debug "#{name} received"
     Reply.success conn, Ennio.Config.identity
     Reply.success conn, extension_names(conn), multiline: true
     {:ok, conn}
