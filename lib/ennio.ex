@@ -29,7 +29,15 @@ defmodule Ennio do
   def start_ranch do
     protocol_options = []
     port = Config.port
-    {:ok, _} = :ranch.start_listener(:ennio, 1, :ranch_tcp, [port: port], Ennio.Protocol, protocol_options)
+    ranch_tcp_opts = [port: port]
+    # ranch_ssl_opts = [
+    #   port: port,
+    #   certfile: '/Users/HashNuke/Desktop/certs/server.crt',
+    #   cacertfile: '/Users/HashNuke/Desktop/certs/server.csr',
+    #   keyfile: '/Users/HashNuke/Desktop/certs/server.key',
+    #   verify: :verify_peer
+    # ]
+    {:ok, _} = :ranch.start_listener(:ennio, 1, :ranch_tcp, ranch_tcp_opts, Ennio.Protocol, protocol_options)
     Logger.info "SMTP server started on port #{port}"
   end
 
