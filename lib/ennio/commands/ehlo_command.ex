@@ -1,6 +1,7 @@
 defmodule Ennio.Commands.Ehlo do
 
   alias Ennio.Reply
+  require Logger
 
   def name do
     "EHLO"
@@ -8,6 +9,8 @@ defmodule Ennio.Commands.Ehlo do
 
   def call(conn, _args) do
     #TODO accept FQDN as first arg
+    Logger.info "#{name} received"
+    IO.puts "EHLO received"
     Reply.success conn, Ennio.Config.identity
     Reply.success conn, extension_names(conn.extensions), multiline: true
     {:ok, conn}
