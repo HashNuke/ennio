@@ -2,7 +2,15 @@
 # and its dependencies with the aid of the Mix.Config module.
 use Mix.Config
 
-config :ennio, :smtp, [identity: "example.com"]
+config :ennio, :smtp, [
+  identity: "example.com",
+  ssl_opts: [
+    certfile: '/Users/HashNuke/Desktop/certs/server.crt',
+    cacertfile: '/Users/HashNuke/Desktop/certs/server.csr',
+    keyfile: '/Users/HashNuke/Desktop/certs/server.key',
+    verify: :verify_peer
+  ]
+]
 
 # This configuration is loaded before any dependency and is restricted
 # to this project. If another project depends on this project, this
