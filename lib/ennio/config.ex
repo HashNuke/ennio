@@ -34,7 +34,8 @@ defmodule Ennio.Config do
 
   defp inbuilt_extensions do
     [
-      Ennio.Extensions.Size
+      Ennio.Extensions.Size,
+      Ennio.Extensions.StartTls
     ]
   end
 end
