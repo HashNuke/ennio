@@ -5,7 +5,7 @@ defmodule Ennio.Commands.Helo do
   def name, do: "HELO"
 
   def call(conn, _args) do
-    Reply.success conn, Ennio.Config.identity, last: true
+    Reply.success conn, Ennio.Config.identity
     {:ok, conn}
   end
 end
