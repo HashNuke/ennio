@@ -44,6 +44,11 @@ defmodule Ennio.Protocol do
     handle_input(conn, data)
   end
 
+  def handle_info({:ssl_closed, _socket}, state) do
+    Logger.debug "SSL closed"
+    {:stop, :normal, state}
+  end
+
   def handle_info(:timeout, state) do
     Logger.debug "TCP timeout"
     {:stop, :normal, state}
