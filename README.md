@@ -92,3 +92,15 @@ example: "from [ClientIP] by [self-ip] via SMTP, [date]"
 ## Extensions
 
 TODO
+
+## Testing things out on command line
+
+```
+# For a plain connection
+telnet localhost 2525
+
+# To use STARTTLS
+openssl s_client -starttls smtp -crlf -connect localhost:2525
+```
+
+Replace port as necessary. 2525 is the default Ennio port.
