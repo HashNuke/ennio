@@ -20,14 +20,14 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
 
 ## TODO
 
-* plain & html body parsing
-* Authentication
-* SPF records
-* MX verification
-* STARTTLS
-* Chunking
-* Pipelining
-* 8BITMIME
+* [ ] plain & html body parsing
+* [ ] Authentication
+* [ ] SPF records
+* [ ] MX verification
+* [x] STARTTLS
+* [ ] Chunking
+* [ ] Pipelining
+* [ ] 8BITMIME
 
 ## WIP notes
 
