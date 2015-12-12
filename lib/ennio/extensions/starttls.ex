@@ -10,21 +10,27 @@ defmodule Ennio.Extensions.StartTls do
   end
 
 
-  def name do
-    "STARTTLS"
-  end
+  def name, do: "STARTTLS"
 
 
   def call(conn, data) do
-    Logger.debug "STARTTLS"
-    ssl_opts = [
-      certfile: '/Users/HashNuke/Desktop/certs/server.crt',
-      cacertfile: '/Users/HashNuke/Desktop/certs/server.csr',
-      keyfile: '/Users/HashNuke/Desktop/certs/server.key',
-      verify: :verify_peer
-    ]
-    {:ok, new_socket} = :ssl.ssl_accept conn.socket, ssl_opts
-    Reply.init %{conn | socket: new_socket}
+    Logger.debug "#{name} received"
+
+    # try moving this after the ssl_accept
+    :ok = conn.transport.setopts conn.socket, [active: false]
+
+    Reply.init conn
+    Logger.debug "SSL Accepting..."
+    {:ok, ssl_socket} = :ssl.ssl_accept conn.socket, Ennio.Config.smtp[:ssl_opts]
+
+    # :ok = conn.transport.setopts conn.socket, [active: :once]
+
+    Logger.debug "Accepted SSL connection"
+    conn = %Ennio.Connection{conn | socket: ssl_socket}
+    |> Map.put(:secure, true)
+
+    # :ok = :ssl.controlling_process(conn.socket, self)
+    :ok = :ssl.setopts conn.socket, [active: :once]
     {:ok, conn}
   end
 

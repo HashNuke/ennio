@@ -12,7 +12,7 @@ defmodule Ennio.Extensions.Size do
 
 
   def call(conn, data) do
-    #TODO
+    {:ok, conn}
   end
 
 end

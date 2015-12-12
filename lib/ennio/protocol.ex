@@ -1,11 +1,12 @@
 defmodule Ennio.Protocol do
+  require Logger
   use GenServer
 
   alias Ennio.Connection
   alias Ennio.Config
 
   @behaviour :ranch_protocol
-  @timeout Application.get_env :ennio, :timeout, 5000
+  @timeout Application.get_env :ennio, :timeout, 10000
 
 
   def start_link(ref, socket, transport, options) do
@@ -17,15 +18,43 @@ defmodule Ennio.Protocol do
     :ok = :proc_lib.init_ack {:ok, self}
     :ok = :ranch.accept_ack ref
     :ok = transport.setopts socket, [active: :once]
-
     state = Connection.new(socket, transport)
+
     Ennio.Reply.init state
+
+    Logger.debug "entering listen loop"
     :gen_server.enter_loop __MODULE__, [], state, @timeout
   end
 
-  def handle_info({:tcp, socket, data}, conn) do
+  def handle_info({:tcp, _socket, data}, conn) do
+    handle_input(conn, data)
+  end
+
+  def handle_info({:tcp_closed, _socket}, state) do
+    Logger.debug "TCP closed"
+    {:stop, :normal, state}
+  end
+
+  def handle_info({:tcp_error, _, reason}, state) do
+    Logger.debug "TCP error: #{reason}"
+    {:stop, reason, state}
+  end
+
+  def handle_info({:ssl, _socket, data}, conn) do
+    handle_input(conn, data)
+  end
+
+  def handle_info(:timeout, state) do
+    Logger.debug "TCP timeout"
+    {:stop, :normal, state}
+  end
+
+
+  defp handle_input(conn, data) do
+    Logger.debug "Received secure(#{conn.secure}): #{data}"
+
     %Connection{socket: socket, transport: transport, mail: mail} = conn
-    :ok = transport.setopts socket, [active: :once]
+    :ok = set_socket_opts conn, [active: :once]
 
     case Connection.call(conn, data) do
       {:halt, conn} ->
@@ -35,16 +64,12 @@ defmodule Ennio.Protocol do
     end
   end
 
-  def handle_info({:tcp_closed, _socket}, state) do
-    {:stop, :normal, state}
-  end
 
-  def handle_info({:tcp_error, _, reason}, state) do
-    {:stop, reason, state}
+  defp set_socket_opts(conn, opts) do
+    if conn.secure == true do
+      :ssl.setopts conn.socket, opts
+    else
+      conn.transport.setopts conn.socket, opts
+    end
   end
-
-  def handle_info(:timeout, state) do
-    {:stop, :normal, state}
-  end
-
 end

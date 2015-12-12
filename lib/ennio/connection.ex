@@ -7,7 +7,8 @@ defmodule Ennio.Connection do
             socket: nil,
             extensions: nil,
             state: nil,
-            mail: nil
+            mail: nil,
+            secure: false
 
 
   def new(socket, transport) do
@@ -18,7 +19,7 @@ defmodule Ennio.Connection do
 
 
   def call(conn, data) do
-    #TODO if data command is in progress avoid the following
+    #TODO if DATA command is in progress avoid the following
     [command | args] = String.strip(data) |> String.split(" ")
 
     # This avoids pattern matching
@@ -35,12 +36,16 @@ defmodule Ennio.Connection do
 
 
   def output(conn, data) do
-    conn.transport.send conn.socket, "#{data}\n"
+    if conn.secure == true do
+      :ssl.send conn.socket, "#{data}\n"
+    else
+      conn.transport.send conn.socket, "#{data}\n"
+    end
   end
 
 
   defp available_commands do
-    %{
+    inbuilt = %{
       "EHLO" => Ennio.Commands.Ehlo,
       "HELO" => Ennio.Commands.Helo,
       "MAIL" => Ennio.Commands.Mail,
@@ -49,6 +54,22 @@ defmodule Ennio.Connection do
       "RSET" => Ennio.Commands.Rset,
       "QUIT" => Ennio.Commands.Quit
     }
+
+    Config.extensions
+    |> Enum.filter_map(&is_command_extension/1, &get_command_extension/1)
+    |> Enum.into %{}
+    |> Map.merge(inbuilt)
   end
 
+
+  defp is_command_extension(extension) do
+    info = extension.init()
+    info[:command] != nil
+  end
+
+
+  defp get_command_extension(extension) do
+    info = extension.init()
+    {info[:command], extension}
+  end
 end
