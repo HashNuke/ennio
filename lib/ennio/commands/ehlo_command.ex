@@ -8,12 +8,15 @@ defmodule Ennio.Commands.Ehlo do
   def call(conn, _args) do
     #TODO accept FQDN as first arg
     Reply.success conn, Ennio.Config.identity
-    Reply.success conn, extension_names(conn.extensions), multiline: true
+    Reply.success conn, extension_names(conn), multiline: true
     {:ok, conn}
   end
 
-
-  def extension_names(extensions) do
-    Enum.map extensions, fn(ext)-> ext.name end
+  def extension_names(conn) do
+    if conn.secure do
+      Enum.filter_map conn.extensions, &(&1.name != "STARTTLS"), &(&1.name)
+    else
+      Enum.map conn.extensions, &(&1.name)
+    end
   end
 end
