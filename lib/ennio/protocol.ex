@@ -1,11 +1,11 @@
 defmodule Ennio.Protocol do
+  @behaviour :ranch_protocol
+
   require Logger
   use GenServer
 
   alias Ennio.Connection
-  alias Ennio.Config
 
-  @behaviour :ranch_protocol
   @timeout Application.get_env :ennio, :timeout, 10000
 
 
@@ -57,8 +57,6 @@ defmodule Ennio.Protocol do
 
   defp handle_input(conn, data) do
     Logger.debug "Received secure(#{conn.secure}): #{data}"
-
-    %Connection{socket: socket, transport: transport, mail: mail} = conn
     :ok = set_socket_opts conn, [active: :once]
 
     case Connection.call(conn, data) do
