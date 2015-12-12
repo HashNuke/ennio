@@ -3,6 +3,17 @@ defmodule Ennio.Connection do
 
   require Logger
 
+  @inbuilt %{
+              "EHLO" => Ennio.Commands.Ehlo,
+              "HELO" => Ennio.Commands.Helo,
+              "MAIL" => Ennio.Commands.Mail,
+              "RCPT" => Ennio.Commands.Rcpt,
+              "DATA" => Ennio.Commands.Data,
+              "RSET" => Ennio.Commands.Rset,
+              "QUIT" => Ennio.Commands.Quit
+            }
+
+
   defstruct transport: nil,
             socket: nil,
             extensions: nil,
@@ -35,7 +46,17 @@ defmodule Ennio.Connection do
   end
 
 
-  def output(conn, data) do
+  def output(conn, [response_code, data]) do
+    send(conn, "#{response_code} #{data}")
+  end
+
+
+  def output(conn, [response_code, data], last: false) do
+    write(conn, "#{response_code}-#{data}")
+  end
+
+
+  defp write(conn, data) do
     if conn.secure == true do
       :ssl.send conn.socket, "#{data}\n"
     else
@@ -45,24 +66,14 @@ defmodule Ennio.Connection do
 
 
   defp available_commands do
-    inbuilt = %{
-      "EHLO" => Ennio.Commands.Ehlo,
-      "HELO" => Ennio.Commands.Helo,
-      "MAIL" => Ennio.Commands.Mail,
-      "RCPT" => Ennio.Commands.Rcpt,
-      "DATA" => Ennio.Commands.Data,
-      "RSET" => Ennio.Commands.Rset,
-      "QUIT" => Ennio.Commands.Quit
-    }
-
     Config.extensions
-    |> Enum.filter_map(&is_command_extension/1, &get_command_extension/1)
+    |> Enum.filter_map(&command_extension?/1, &get_command_extension/1)
     |> Enum.into %{}
-    |> Map.merge(inbuilt)
+    |> Map.merge(@inbuilt)
   end
 
 
-  defp is_command_extension(extension) do
+  defp command_extension?(extension) do
     info = extension.init()
     info[:command] != nil
   end
