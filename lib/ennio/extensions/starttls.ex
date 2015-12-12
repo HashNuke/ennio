@@ -12,8 +12,8 @@ defmodule Ennio.Extensions.StartTls do
   def call(conn, _args) do
     :ok = conn.transport.setopts conn.socket, [active: false]
     Reply.init conn
-    {:ok, ssl_socket} = :ssl.ssl_accept conn.socket, Ennio.Config.smtp[:ssl_opts]
 
+    {:ok, ssl_socket} = :ssl.ssl_accept conn.socket, Ennio.Config.smtp[:ssl_opts]
     conn = %Ennio.Connection{conn | socket: ssl_socket}
     |> Map.put(:secure, true)
 
