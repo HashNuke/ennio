@@ -1,8 +1,6 @@
 defmodule Ennio.Connection do
   alias Ennio.Config
 
-  require Logger
-
   @inbuilt_commands %{
               "EHLO" => Ennio.Commands.Ehlo,
               "HELO" => Ennio.Commands.Helo,
