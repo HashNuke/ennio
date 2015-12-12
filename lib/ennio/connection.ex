@@ -22,9 +22,8 @@ defmodule Ennio.Connection do
 
   def new(socket, transport) do
     conn = %Ennio.Connection{transport: transport, socket: socket}
-    %{conn | extensions: Config.extensions }
+    %Ennio.Connection{conn | extensions: Config.extensions }
   end
-
 
 
   def call(conn, data) do
@@ -45,7 +44,7 @@ defmodule Ennio.Connection do
 
 
   def output(conn, [response_code, data]) do
-    send(conn, "#{response_code} #{data}")
+    write(conn, "#{response_code} #{data}")
   end
 
 
