@@ -56,7 +56,7 @@ defmodule Ennio.Protocol do
 
 
   defp handle_input(conn, data) do
-    Logger.debug "Received secure(#{conn.secure}): #{data}"
+    # Logger.debug "Received secure(#{conn.secure}): #{inspect data}"
     :ok = set_socket_opts conn, [active: :once]
 
     case Connection.call(conn, data) do

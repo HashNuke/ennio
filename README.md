@@ -28,6 +28,7 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
 * [ ] Chunking
 * [ ] Pipelining
 * [ ] 8BITMIME
+* [ ] Assign session ID as soon as session starts
 
 ## WIP notes
 
