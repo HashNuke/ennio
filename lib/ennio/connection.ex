@@ -3,7 +3,7 @@ defmodule Ennio.Connection do
 
   require Logger
 
-  @inbuilt %{
+  @inbuilt_commands %{
               "EHLO" => Ennio.Commands.Ehlo,
               "HELO" => Ennio.Commands.Helo,
               "MAIL" => Ennio.Commands.Mail,
@@ -69,7 +69,7 @@ defmodule Ennio.Connection do
     Config.extensions
     |> Enum.filter_map(&command_extension?/1, &get_command_extension/1)
     |> Enum.into %{}
-    |> Map.merge(@inbuilt)
+    |> Map.merge(@inbuilt_commands)
   end
 
 
