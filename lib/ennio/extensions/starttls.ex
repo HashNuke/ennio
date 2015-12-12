@@ -5,10 +5,7 @@ defmodule Ennio.Extensions.StartTls do
   def name, do: "STARTTLS"
 
   def init do
-    %{
-      hooks: [:after_data],
-      command: "STARTTLS"
-    }
+    %{command: "STARTTLS"}
   end
 
 
