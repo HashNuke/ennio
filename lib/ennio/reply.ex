@@ -55,7 +55,7 @@ defmodule Ennio.Reply do
     Connection.output conn, [450, "mailbox unavailable"]
   end
 
-  def error(conn, :bad_command) do
+  def error(conn, :invalid_command) do
     Connection.output conn, [500, "bad command"]
   end
 
@@ -63,7 +63,7 @@ defmodule Ennio.Reply do
     Connection.output conn, [501, "syntax error in paramters or arguments"]
   end
 
-  def error(conn, :bad_command_sequence) do
+  def error(conn, :invalid_command_sequence) do
     Connection.output conn, [503, "bad command sequence"]
   end
 
