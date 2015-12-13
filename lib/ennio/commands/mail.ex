@@ -13,7 +13,6 @@ defmodule Ennio.Commands.Mail do
       from_email ->
         mail = %Ennio.Mail{from: from_email}
         conn = %Ennio.Connection{conn | mail: mail}
-        IO.inspect conn
     end
     {:ok, conn}
   end
