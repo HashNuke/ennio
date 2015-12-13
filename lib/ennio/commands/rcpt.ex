@@ -12,7 +12,6 @@ defmodule Ennio.Commands.Rcpt do
       _ ->
         parse_and_assign_to_email(conn, args)
     end
-    {:ok, conn}
   end
 
 
@@ -25,6 +24,9 @@ defmodule Ennio.Commands.Rcpt do
       email_address ->
         mail = %Ennio.Mail{from: email_address}
         conn = %Ennio.Connection{conn | mail: mail}
+        #TODO reply needs to be better
+        #TODO call API module
+        Reply.ok conn
     end
     {:ok, conn}
   end
