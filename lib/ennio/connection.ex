@@ -38,8 +38,6 @@ defmodule Ennio.Connection do
     #TODO if DATA command is in progress avoid the following
     [command | args] = String.strip(data) |> String.split(" ")
     args = Enum.join args, " "
-    require Logger
-    Logger.debug data
 
     # This avoids pattern matching
     command = String.upcase command
