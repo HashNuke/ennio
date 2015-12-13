@@ -8,7 +8,7 @@ defmodule Ennio.Commands.Rset do
       :ok = :ssl.renegotiate conn.socket
     end
 
-    conn = %Ennio.Connection{conn | mail: %Ennio.Mail{}}
+    conn = Ennio.Connection.reset(conn)
     Reply.ok conn
     {:ok, conn}
   end

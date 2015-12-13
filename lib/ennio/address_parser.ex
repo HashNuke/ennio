@@ -1,9 +1,7 @@
 defmodule Ennio.AddressParser do
 
   def find_email(param_name, args) do
-    arg_string = Enum.join args, " "
-
-    case find_mailbox_param(param_name, arg_string) do
+    case find_mailbox_param(param_name, args) do
       :invalid_parameter_syntax -> :invalid_parameter_syntax
       from_param ->
         case Regex.scan(email_pattern, from_param) do
@@ -16,9 +14,9 @@ defmodule Ennio.AddressParser do
   end
 
 
-  def find_mailbox_param(name, arg_string) do
+  def find_mailbox_param(name, args) do
     pattern = mailbox_param_pattern(name)
-    case Regex.scan(pattern, arg_string) do
+    case Regex.scan(pattern, args) do
       [] -> :invalid_parameter_syntax
       results ->
         [[ match | _rest ]] = results

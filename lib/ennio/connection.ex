@@ -18,17 +18,28 @@ defmodule Ennio.Connection do
             state: nil,
             mail: nil,
             secure: false
+            session_id: nil
 
 
   def new(socket, transport) do
     conn = %Ennio.Connection{transport: transport, socket: socket}
-    %Ennio.Connection{conn | extensions: Config.extensions }
+    session_id = Ennio.Utils.generate_unique_id
+    %Ennio.Connection{conn | extensions: Config.extensions, session_id: session_id }
+  end
+
+
+  def reset(conn) do
+    session_id = Ennio.Utils.generate_unique_id
+    %Ennio.Connection{conn | nil, session_id: session_id}
   end
 
 
   def call(conn, data) do
     #TODO if DATA command is in progress avoid the following
     [command | args] = String.strip(data) |> String.split(" ")
+    args = Enum.join args, " "
+    require Logger
+    Logger.debug data
 
     # This avoids pattern matching
     command = String.upcase command
