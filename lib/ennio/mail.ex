@@ -1,7 +1,7 @@
 defmodule Ennio.Mail do
 
   defstruct from: nil,
-            to: nil,
+            to: [],
             headers: [],
             plain_body: nil,
             html_body: nil
