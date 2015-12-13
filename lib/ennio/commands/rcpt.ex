@@ -22,7 +22,8 @@ defmodule Ennio.Commands.Rcpt do
       :invalid_mailbox_syntax ->
         Reply.error(conn, :invalid_mailbox_syntax)
       email_address ->
-        mail = %Ennio.Mail{from: email_address}
+        to_addresses = conn.mail.to ++ [email_address]
+        mail = %Ennio.Mail{conn.mail | to: to_addresses}
         conn = %Ennio.Connection{conn | mail: mail}
         #TODO reply needs to be better
         #TODO call API module
