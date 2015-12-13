@@ -59,7 +59,7 @@ defmodule Ennio.Reply do
     Connection.output conn, [500, "bad command"]
   end
 
-  def error(conn, :parameter_syntax) do
+  def error(conn, :invalid_parameter_syntax) do
     Connection.output conn, [501, "syntax error in paramters or arguments"]
   end
 
