@@ -1,12 +1,28 @@
 defmodule Ennio.AddressParser do
 
+  def find_email(param_name, args) do
+    arg_string = Enum.join args, " "
 
-  #TODO not required anymore?
-  def call(forward_path) do
-    try do
-      {:ok, forward_path}
-    rescue
-      _ -> {:error, :syntax}
+    case find_mailbox_param(param_name, arg_string) do
+      :invalid_parameter_syntax -> :invalid_parameter_syntax
+      from_param ->
+        case Regex.scan(email_pattern, from_param) do
+          [] -> :invalid_mailbox_syntax
+          results ->
+            [[ email | _rest ]] = results
+            email
+        end
+    end
+  end
+
+
+  def find_mailbox_param(name, arg_string) do
+    pattern = mailbox_param_pattern(name)
+    case Regex.scan(pattern, arg_string) do
+      [] -> :invalid_parameter_syntax
+      results ->
+        [[ match | _rest ]] = results
+        match
     end
   end
 
@@ -21,12 +37,7 @@ defmodule Ennio.AddressParser do
   end
 
 
-  def mail_from_pattern do
-    mail_parameter_pattern("from")
-  end
-
-
-  defp mail_parameter_pattern(name) do
+  defp mailbox_param_pattern(name) do
     ~r/#{name}:\ \<(@[\w-]+(\.[\w-]+)+;)*[\w.\-+]+@[\w-]+(\.[\w-]+)+\>/i
   end
 end
