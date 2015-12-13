@@ -17,7 +17,7 @@ defmodule Ennio.Connection do
             extensions: nil,
             state: nil,
             mail: nil,
-            secure: false
+            secure: false,
             session_id: nil
 
 
@@ -30,7 +30,7 @@ defmodule Ennio.Connection do
 
   def reset(conn) do
     session_id = Ennio.Utils.generate_unique_id
-    %Ennio.Connection{conn | nil, session_id: session_id}
+    %Ennio.Connection{conn | mail: nil, session_id: session_id}
   end
 
 
@@ -46,7 +46,7 @@ defmodule Ennio.Connection do
 
     case Map.get(available_commands, command) do
       nil ->
-        Ennio.Reply.error(conn, :bad_command)
+        Ennio.Reply.error(conn, :invalid_command)
         {:ok, conn}
       module ->
         module.call(conn, args)
