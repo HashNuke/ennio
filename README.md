@@ -20,23 +20,27 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
 
 ## TODO
 
+* [x] EHLO
+* [x] HELO
+* [x] MAIL verb
+* [x] RCPT verb
+* [x] RSET verb
+* [x] STARTTLS
+* [x] Renegotiate SSL on RSET
+* [x] Assign session ID as soon as session starts
 * [ ] plain & html body parsing
-* [ ] Authentication
+* [ ] AUTH
+* [ ] CHUNKING
+* [ ] PIPELINING
 * [ ] SPF records
 * [ ] MX verification
-* [x] STARTTLS
-* [ ] Chunking
-* [ ] Pipelining
 * [ ] 8BITMIME
-* [ ] Assign session ID as soon as session starts
+* [ ] Support for "EHLO <>" and "EHLO <FQDN>"
+
 
 ## WIP notes
 
-* Ranch delays accepting connections if the OS runs out of file descriptors
-* Limit the amount of bytes that a connection can accept. Else sending data repeatedly to keep a connection open can cause blocks.
-
 * start_ranch stuff should actually be in a supervisor
-* :inet_res.lookup('hashnuke.com', :in, :mx) to lookup MX records
 * cache the DNS records for atleast 3 minutes in ETS
 * If user authenticates, then it's an outgoing email (to be relayed to another server). Else it is incoming mail to accept.
 * Check relaying mail if it is destined for the same (self) email server.
@@ -54,29 +58,13 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
 * Should prepend a "Received" header with mandatory protocol in the via clause.
 example: "from [ClientIP] by [self-ip] via SMTP, [date]"
 
-## RFC notes
 
-* All commands begin with a command verb.
-* Some commands do not accept arguments
-
-* All replies begin with a three digit numeric code.
-* Some reply codes are followed by free form text
-* Verbs and argument values are not case-sensitive
-  * exception is the mailbox local part of the address
-* Few SMTP servers violate RFC and require uppercase verbs.
-* Should support 8BITMIME extension
-* Normally failures produce 550 or 553 replies
 * 421 response if need to shutdown SMTP service
-
 * EHLO with address literal for clients or FQDN for relays
   * size
   * extension list
-* HELO
-* QUIT
-* VRFY
-* EXPN
-* RSET
 * What happens to Bcc emails? Are they sent the 2nd time or single copy?
+
 
 ## RFCs
 
@@ -90,11 +78,7 @@ example: "from [ClientIP] by [self-ip] via SMTP, [date]"
 * [RFC 2045](https://tools.ietf.org/html/rfc2045) MIME
 
 
-## Extensions
-
-TODO
-
-## Testing things out on command line
+## To test things out on command line
 
 ```
 # For a plain connection
