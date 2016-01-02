@@ -65,6 +65,7 @@ example: "from [ClientIP] by [self-ip] via SMTP, [date]"
   * extension list
 * What happens to Bcc emails? Are they sent the 2nd time or single copy?
 
+* RFC-822 says order for headers is important: "Return-Path", "Received", "Date",  "From",  "Subject",  "Sender", "To", "cc", etc
 
 ## RFCs
 
