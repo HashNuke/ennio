@@ -69,6 +69,7 @@ example: "from [ClientIP] by [self-ip] via SMTP, [date]"
 ## RFCs
 
 * [RFC 5321](https://tools.ietf.org/html/rfc5321) SMTP
+* [RFC 822](https://tools.ietf.org/html/rfc822) Standard for ARPA Internet Text Messages
 * [RFC 7504](https://tools.ietf.org/html/rfc7504) SMTP 521 and 556 reply codes
 * [RFC 6409](https://tools.ietf.org/html/rfc6409) Message Submission for Mail
 * [RFC 4954](https://tools.ietf.org/html/rfc4954) SMTP Service Extension for Authentication
@@ -76,7 +77,6 @@ example: "from [ClientIP] by [self-ip] via SMTP, [date]"
 
 * [RFC 5322](https://tools.ietf.org/html/rfc5322) Internet Message Format
 * [RFC 2045](https://tools.ietf.org/html/rfc2045) MIME
-
 
 ## To test things out on command line
 
