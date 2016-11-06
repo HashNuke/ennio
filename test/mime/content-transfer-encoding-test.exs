@@ -20,6 +20,11 @@ defmodule ContentTransferEncodingTest do
   test "should allow bae64" do
   end
 
+
+  test "should allow quote-printable" do
+  end
+
+
   test "should allow X-prefixed value" do
   end
 

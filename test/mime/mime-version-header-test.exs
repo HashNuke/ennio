@@ -1,4 +1,4 @@
-defmodule MimeVersionHeaderTest do
+defmodule MimeVersionHeader do
   use ExUnit.Case
   doctest Ennio
 
@@ -12,4 +12,11 @@ defmodule MimeVersionHeaderTest do
   test "MIME header with comment, followed by version" do
   end
 
+
+  test "Content-Type header" do
+  end
+
+
+  test "Content-Type header" do
+  end
 end
